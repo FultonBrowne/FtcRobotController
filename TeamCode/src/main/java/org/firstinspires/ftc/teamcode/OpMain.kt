@@ -56,12 +56,10 @@ class OpMain : OpMode() {
 		if (isYellow){
 		   //Turn on firing motors
            move.crStop(crserv0)
-           move.crON(crserv1, -1.0)
            motor6!!.setPower(1.0)
 		}else{
 			//Run loader
             motor6!!.setPower(0.0)
-            move.crStop(crserv1)
             move.crON(crserv0, -1.0) // Maybe flip this
 		}
       if(gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1){
