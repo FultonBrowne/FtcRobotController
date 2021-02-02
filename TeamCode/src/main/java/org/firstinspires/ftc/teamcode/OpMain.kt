@@ -26,7 +26,7 @@ class OpMain : OpMode() {
         motor5 = hardwareMap.dcMotor["motor5"]
         motor6 = hardwareMap.dcMotor["motor6"]
         crserv0 = hardwareMap.crservo["servo0"]
-        crserv1 = hardwareMap.crservo["servo1"]
+        servo1 = hardwareMap.servo["servo1"]
         color0 = hardwareMap.colorSensor["color0"];
         motor0!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor1!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
@@ -56,7 +56,7 @@ class OpMain : OpMode() {
 		if (isYellow){
 		   //Turn on firing motors
            move.crStop(crserv0)
-           motor6!!.setPower(1.0)
+           motor6!!.setPower(1.0) // Flip flop
 		}else{
 			//Run loader
             motor6!!.setPower(0.0)
@@ -104,22 +104,18 @@ class OpMain : OpMode() {
          )
       }
 
-      if(gamepad1.right_trigger > 0.1){
-         motor4!!.setPower(gamepad1.right_trigger.toDouble())
-         motor5!!.setPower(gamepad1.right_trigger.toDouble())
-      }else{
-         motor4!!.setPower(0.0)
-         motor5!!.setPower(0.0)
-      }
-
+      
       if(gamepad1.y){
          //TODO load
       }
 
       if(gamepad1.a){
+          //servo set posistion
+          //TODO set the servo1 to pos 1
           motor4!!.setPower(1.0)
           motor5!!.setPower(1.0)
       } else {
+          //you get the idea
           motor4!!.setPower(0.0)
           motor5!!.setPower(0.0)
       }
