@@ -14,7 +14,7 @@ class OpMain : OpMode() {
    var motor5:DcMotor? = null
    var motor6:DcMotor? = null
    var crserv0:CRServo? = null
-   var crserv1:CRServo? = null
+   var servo1:Servo? = null
    var color0:ColorSensor? = null
    val move = Move()
    override fun init(){
@@ -25,8 +25,8 @@ class OpMain : OpMode() {
         motor4 = hardwareMap.dcMotor["motor4"]
         motor5 = hardwareMap.dcMotor["motor5"]
         motor6 = hardwareMap.dcMotor["motor6"]
-        crserv0 = hardwareMap.crservo["servo0"]
-        servo1 = hardwareMap.servo["servo1"]
+        crserv0 = hardwareMap.crservo["servo3"] // sorry for the bad naming :D
+        servo1 = hardwareMap.servo["servo0"]
         color0 = hardwareMap.colorSensor["color0"];
         motor0!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor1!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
@@ -59,8 +59,8 @@ class OpMain : OpMode() {
            motor6!!.setPower(1.0) // Flip flop
 		}else{
 			//Run loader
-            motor6!!.setPower(0.0)
-            move.crON(crserv0, -1.0) // Maybe flip this
+            // motor6!!.setPower(0.0)
+            move.crON(crserv0, -1.0) 
 		}
       if(gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1){
          move.forward(
@@ -110,14 +110,24 @@ class OpMain : OpMode() {
       }
 
       if(gamepad1.a){
-          //servo set posistion
-          //TODO set the servo1 to pos 1
-          motor4!!.setPower(1.0)
-          motor5!!.setPower(1.0)
+          motor4!!.setPower(-1.0)
+          motor5!!.setPower(-1.0)
+          servo1!!.setPosition(0.0);
       } else {
-          //you get the idea
+          
           motor4!!.setPower(0.0)
           motor5!!.setPower(0.0)
+          servo1!!.setPosition(1.0);
+
+      }
+
+      if(gamepad1.b){
+          //servo set posistion
+          //TODO set the servo1 to pos 1
+          motor6!!.setPower(-1.0)
+      } else {
+          //you get the idea
+          motor6!!.setPower(0.0)
       }
 
       if(gamepad1.b){
