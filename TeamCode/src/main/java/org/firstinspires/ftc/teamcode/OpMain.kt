@@ -104,29 +104,22 @@ class OpMain : OpMode() {
          )
       }
 
-      
-      if(gamepad1.y){
-         //TODO load
-      }
 
       if(gamepad1.a){
           motor4!!.setPower(-1.0)
           motor5!!.setPower(-1.0)
-          servo1!!.setPosition(0.0);
+          servo1!!.setPosition(0.0) //Set the auto fire here
       } else {
           
           motor4!!.setPower(0.0)
           motor5!!.setPower(0.0)
-          servo1!!.setPosition(1.0);
+          servo1!!.setPosition(1.0)
 
       }
 
       if(gamepad1.b){
-          //servo set posistion
-          //TODO set the servo1 to pos 1
-          motor6!!.setPower(-1.0)
+          motor6!!.setPower(-1.0) // add some auto thing?
       } else {
-          //you get the idea
           motor6!!.setPower(0.0)
       }
 
