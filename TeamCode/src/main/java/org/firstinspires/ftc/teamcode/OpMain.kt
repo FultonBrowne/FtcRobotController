@@ -18,6 +18,7 @@ class OpMain : OpMode() {
    var color0:ColorSensor? = null
    val move = Move()
    override fun init(){
+   
         motor0 = hardwareMap.dcMotor["motor0"]
         motor1 = hardwareMap.dcMotor["motor1"]
         motor2 = hardwareMap.dcMotor["motor2"]
@@ -44,23 +45,27 @@ class OpMain : OpMode() {
         telemetry.addData(Integer.toString(color0!!.green()), "green");
        telemetry.addData(Integer.toString(color0!!.blue()), "blue");
         telemetry.addData(Integer.toString(color0!!.alpha()), "alpha");
-        if (color0!!.alpha() < 30) toReturn = true;
+        if (color0!!.alpha() > 6000) toReturn = true;
         color0!!.enableLed(true);
        // if (colorSensor)
         return toReturn;
    }
 
    override fun loop(){
+        
 		/* get a bool of yellow true or false */
 		val isYellow = isYellow()
 		if (isYellow){
 		   //Turn on firing motors
            move.crStop(crserv0)
-           motor6!!.setPower(1.0) // Flip flop
+           motor4!!.setPower(-1.0)
+           motor5!!.setPower(-1.0)
 		}else{
 			//Run loader
             // motor6!!.setPower(0.0)
-            move.crON(crserv0, -1.0) 
+            motor4!!.setPower(0.0)
+            motor5!!.setPower(0.0)
+            move.crON(crserv0, -1.0)
 		}
       if(gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1){
          move.forward(
@@ -109,13 +114,7 @@ class OpMain : OpMode() {
           motor4!!.setPower(-1.0)
           motor5!!.setPower(-1.0)
           servo1!!.setPosition(0.0) //Set the auto fire here
-      } else {
-          
-          motor4!!.setPower(0.0)
-          motor5!!.setPower(0.0)
-          servo1!!.setPosition(1.0)
-
-      }
+      } else  servo1!!.setPosition(1.0)
 
       if(gamepad1.b){
           motor6!!.setPower(-1.0) // add some auto thing?

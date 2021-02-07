@@ -37,6 +37,11 @@ class AutoBlue : OpMode() {
    override fun start(){
       autotools!!
       autotools!!.initMove()
+      //TODO pull forward 
+      //TODO shoot
+      //TODO move 7½ to the right and shoot twice
+      //TODO Move the stack, flip the servo, move forward, read the height
+      // Find the height
       val height = autotools!!.height()
       if (height == 2.toShort()){
          autotools!!.forward()
@@ -67,6 +72,7 @@ class AutoBlue : OpMode() {
          // autotools.spinDropSpin()
 
       }
+      //TODO Park on the center line
 
    }
 }
