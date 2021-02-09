@@ -14,8 +14,9 @@ import org.firstinspires.ftc.teamcode.framework.Move;
 
 import java.util.Timer;
 import java.util.TimerTask;
-@Autonomous(name = "cube left")
 @Disabled
+@Autonomous(name = "cube left")
+
 
 public class CubeAutoLeft extends OpMode {
     private DcMotor motor0, motor1, motor2, motor3;

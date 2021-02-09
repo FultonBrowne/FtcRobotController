@@ -11,8 +11,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.framework.Color;
 import org.firstinspires.ftc.teamcode.framework.Move;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name = "blue")
+@Disabled
 
 public class LinearAutoRight extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();

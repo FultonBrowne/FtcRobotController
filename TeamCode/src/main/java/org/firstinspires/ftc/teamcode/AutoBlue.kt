@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
@@ -35,7 +34,6 @@ class AutoBlue : OpMode() {
    }
 
    override fun start(){
-      autotools!!
       autotools!!.initMove()
       //TODO pull forward 
       //TODO shoot

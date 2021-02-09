@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.framework.*
+@Disabled
 @Autonomous( name = "Auto Red 2020")
 class AutoRed : OpMode() {
    var motor0:DcMotor? = null 

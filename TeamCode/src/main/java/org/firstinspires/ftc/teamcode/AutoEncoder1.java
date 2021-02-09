@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.framework.Color;
 import org.firstinspires.ftc.teamcode.framework.Move;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.framework.Move;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Disabled
 @Autonomous(name = "red encode")
 public class AutoEncoder1 extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();

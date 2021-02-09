@@ -7,10 +7,12 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.framework.Color;
 import org.firstinspires.ftc.teamcode.framework.Move;
+@Disabled
 @Autonomous(name = "blue encode")
 public class AutoEncoder extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
