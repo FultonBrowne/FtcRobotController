@@ -29,6 +29,8 @@ class OpMain : OpMode() {
         crserv0 = hardwareMap.crservo["servo3"] // sorry for the bad naming :D
         servo1 = hardwareMap.servo["servo0"]
         color0 = hardwareMap.colorSensor["color0"];
+        motor0!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor0!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor0!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor1!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor2!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
@@ -54,6 +56,7 @@ class OpMain : OpMode() {
    override fun loop(){
         
 		/* get a bool of yellow true or false */
+        telemetry.addData(Integer.toString(motor0!!.getCurrentPosition()), "current position of motor0")
 		val isYellow = isYellow()
 		if (isYellow){
 		   //Turn on firing motors

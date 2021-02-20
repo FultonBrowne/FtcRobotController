@@ -1,45 +1,65 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
-import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.framework.*
-@Autonomous( name = "Auto Blue 2020")
-class AutoBlue : OpMode() {
+const val PEG_LENGTH = 3800
+@Autonomous( name = "Auto Mode 2021")
+class AutoBlue : LinearOpMode() {
    var motor0:DcMotor? = null 
    var motor1:DcMotor? = null 
    var motor2:DcMotor? = null 
-   var motor3:DcMotor? = null 
+   var motor3:DcMotor? = null
+   var motor4:DcMotor? = null 
+   var motor5:DcMotor? = null
+   var servo0:Servo? = null
    var autotools:AutoFramework? = null
-   override fun init(){
+   override fun runOpMode(){
         motor0 = hardwareMap.dcMotor["motor0"]
         motor1 = hardwareMap.dcMotor["motor1"]
         motor2 = hardwareMap.dcMotor["motor2"]
         motor3 = hardwareMap.dcMotor["motor3"]
+        motor4 = hardwareMap.dcMotor["motor4"]
+        motor5 = hardwareMap.dcMotor["motor5"]
+        servo0 = hardwareMap.servo["servo0"]
         motor0!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor1!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor2!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor3!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
+        motor0!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor0!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         autotools = AutoFramework(
            motor0!!,
            motor1!!,
            motor2!!,
-           motor3!!
+           motor3!!,
+           servo0!!
         )
-   }
+        waitForStart()
 
-
-   override fun loop(){
-
-   }
-
-   override fun start(){
-      autotools!!.initMove()
-      //TODO pull forward 
+       motor4!!.setPower(-1.0)
+       motor5!!.setPower(-1.0)
+       autotools!!.forward()
+       sleep(2000)
+       autotools!!.stop()
       //TODO shoot
-      //TODO move 7½ to the right and shoot twice
-      //TODO Move the stack, flip the servo, move forward, read the height
-      // Find the height
+      autotools!!.shoot()
+      //TODO move 7½ to the right and shoot twice - get the encoder lengths
+      autotools!!.right()
+      while(motor0!!.getCurrentPosition() < PEG_LENGTH) Thread.sleep(10);
+      autotools!!.stop()
+      autotools!!.shoot()
+       motor0!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor0!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+      autotools!!.right()
+      while(motor0!!.getCurrentPosition() < PEG_LENGTH) Thread.sleep(10);
+      autotools!!.stop()
+      autotools!!.shoot()
+/*
+      //TODO Move the stack, flip the servo, move forward, read the height - 17	 inches to the stack from final launch - move forward 1 inch
+      // Find the height 
+
       val height = autotools!!.height()
       if (height == 2.toShort()){
          autotools!!.forward()
@@ -70,7 +90,8 @@ class AutoBlue : OpMode() {
          // autotools.spinDropSpin()
 
       }
-      //TODO Park on the center line
+      //TODO Park on the center line - this will happen in the above logic
+      */
 
    }
 }
