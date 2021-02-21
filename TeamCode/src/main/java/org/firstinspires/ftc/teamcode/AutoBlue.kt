@@ -14,6 +14,7 @@ class AutoBlue : LinearOpMode() {
    var motor4:DcMotor? = null 
    var motor5:DcMotor? = null
    var servo0:Servo? = null
+   var servo1:Servo? = null
    var autotools:AutoFramework? = null
    override fun runOpMode(){
         motor0 = hardwareMap.dcMotor["motor0"]
@@ -23,6 +24,7 @@ class AutoBlue : LinearOpMode() {
         motor4 = hardwareMap.dcMotor["motor4"]
         motor5 = hardwareMap.dcMotor["motor5"]
         servo0 = hardwareMap.servo["servo0"]
+        servo0 = hardwareMap.servo["servo1"]
         motor0!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor1!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor2!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
