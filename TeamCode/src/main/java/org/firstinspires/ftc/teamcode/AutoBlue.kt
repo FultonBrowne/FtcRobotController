@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.framework.*
-const val PEG_LENGTH = 3800
+const val PEG_LENGTH = 5000
 @Autonomous( name = "Auto Mode 2021")
 class AutoBlue : LinearOpMode() {
    var motor0:DcMotor? = null 
@@ -43,9 +43,7 @@ class AutoBlue : LinearOpMode() {
        autotools!!.forward()
        sleep(2000)
        autotools!!.stop()
-      //TODO shoot
-      autotools!!.shoot()
-      //TODO move 7½ to the right and shoot twice - get the encoder lengths
+       autotools!!.shoot()
       autotools!!.right()
       while(motor0!!.getCurrentPosition() < PEG_LENGTH) Thread.sleep(10);
       autotools!!.stop()
@@ -53,9 +51,15 @@ class AutoBlue : LinearOpMode() {
        motor0!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor0!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
       autotools!!.right()
-      while(motor0!!.getCurrentPosition() < PEG_LENGTH) Thread.sleep(10);
+      while(motor0!!.getCurrentPosition() < PEG_LENGTH - 1500) Thread.sleep(10);
       autotools!!.stop()
       autotools!!.shoot()
+      autotools!!.right()
+      sleep(4000)
+      servo1.setPosition(1.)
+      val height = autotools!!.height()
+      autotools.stop()
+
 /*
       //TODO Move the stack, flip the servo, move forward, read the height - 17	 inches to the stack from final launch - move forward 1 inch
       // Find the height 
