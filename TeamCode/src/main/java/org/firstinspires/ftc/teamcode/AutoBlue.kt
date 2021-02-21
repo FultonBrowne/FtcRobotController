@@ -58,9 +58,9 @@ class AutoBlue : LinearOpMode() {
       autotools!!.shoot()
       autotools!!.right()
       sleep(4000)
-      servo1.setPosition(1.)
+      servo1!!.setPosition(1.0)
       val height = autotools!!.height()
-      autotools.stop()
+      autotools!!.stop()
 
 /*
       //TODO Move the stack, flip the servo, move forward, read the height - 17	 inches to the stack from final launch - move forward 1 inch
