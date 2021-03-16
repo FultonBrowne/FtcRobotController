@@ -3,14 +3,34 @@ package org.firstinspires.ftc.teamcode.framework;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 
-private static final String VUFORIA_KEY =
-            " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+
+import java.util.List;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
 
 /**
  * Base framework for movement
  * Note I use per method motor params for flexibility reasons
  * */
 public class Move {
+   private static final String VUFORIA_KEY =
+            " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+
+    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "Quad";
+    private static final String LABEL_SECOND_ELEMENT = "Single";
+
+    private VuforiaLocalizer vuforia;
+
+    /**
+     * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
+     * Detection engine.
+     */
+    private TFObjectDetector tfod;
 
     public void stop(DcMotor motor0,
           DcMotor motor1,
@@ -305,49 +325,46 @@ public class Move {
             // (typically 16/9).
             tfod.setZoom(2.5, 16.0/9.0);
         }
+
+   if (tfod != null) {
+      // getUpdatedRecognitions() will return null if no new information is available since
+      // the last time that call was made.
+      List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+      if (updatedRecognitions != null) {
+         telemetry.addData("# Object Detected", updatedRecognitions.size());
+         if (updatedRecognitions.size() == 0 ) {
+            // empty list.  no objects recognized.
+            telemetry.addData("TFOD", "No items detected.");
+            telemetry.addData("Target Zone", "A");
+         } else {
+            // list is not empty.
+            // step through the list of recognitions and display boundary info.
+            int i = 0;
+            for (Recognition recognition : updatedRecognitions) {
+               telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+               telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                   recognition.getLeft(), recognition.getTop());
+               telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                   recognition.getRight(), recognition.getBottom());
+                // check label to see which target zone to go after.
+                if (recognition.getLabel().equals("Single")) {
+                   telemetry.addData("Target Zone", "B");
+                    toReturn = 1;
+                } else if (recognition.getLabel().equals("Quad")) {
+                   telemetry.addData("Target Zone", "C");
+                   toReturn = 4;
+                } else {
+                   telemetry.addData("Target Zone", "UNKNOWN");
+                }
+             }
+          }
+       }}
+
+       telemetry.update();
+
+       if (tfod != null) {
+          tfod.shutdown();
+       }
+ 	   return toReturn;
    }
-
-    if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                      telemetry.addData("# Object Detected", updatedRecognitions.size());
-                      if (updatedRecognitions.size() == 0 ) {
-                          // empty list.  no objects recognized.
-                          telemetry.addData("TFOD", "No items detected.");
-                          telemetry.addData("Target Zone", "A");
-                      } else {
-                          // list is not empty.
-                          // step through the list of recognitions and display boundary info.
-                          int i = 0;
-                          for (Recognition recognition : updatedRecognitions) {
-                              telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                              telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                      recognition.getLeft(), recognition.getTop());
-                              telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                      recognition.getRight(), recognition.getBottom());
-
-                              // check label to see which target zone to go after.
-                              if (recognition.getLabel().equals("Single")) {
-                                  telemetry.addData("Target Zone", "B");
-                                  toReturn = 1;
-                              } else if (recognition.getLabel().equals("Quad")) {
-                                  telemetry.addData("Target Zone", "C");
-                                  toReturn = 4;
-                              } else {
-                                  telemetry.addData("Target Zone", "UNKNOWN");
-                              }
-                          }
-                      }
-
-                      telemetry.update();
-                     }
-                     }
-          if (tfod != null) {
-            tfod.shutdown();
-            }
- 	return toReturn;
-   
-
 }
