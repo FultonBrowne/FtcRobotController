@@ -3,8 +3,9 @@ package org.firstinspires.ftc.teamcode.framework;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 
-
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.util.List;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
@@ -299,20 +300,20 @@ public class Move {
 /**
      * Initialize the TensorFlow Object Detection engine.
      */
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+    private void initTfod(OpMode opmode) {
+        int tfodMonitorViewId = opmode.hardwareMap.appContext.getResources().getIdentifier(
+            "tfodMonitorViewId", "id", opmode.hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minResultConfidence = 0.8f;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
-   public int getHeight(){
+   public int getHeight(Telemetry telemetry, OpMode opmode){
 		int toReturn = 0;
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
-        initTfod();
+        initTfod(opmode);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
        if (tfod != null) {
             tfod.activate();
