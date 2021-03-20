@@ -19,7 +19,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * */
 public class Move {
    private static final String VUFORIA_KEY =
-            " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+"Ae21WWb/////AAABmae8pdplzEWlkA+F1I9YzCk04f567Jl0RuBt5jhMMR9qdiqVdKSUGqeur+2ZEAMs854ys+TZHqBOkt/FQZVq9teSGgD1KcsJCEO0hbb+ol3ZXx6BoPBbW0N8HNOIXt6SDY7HjFAsXW3Esvi3/zkNfFlDzfvo8DzkFYFwI5/FyPr8l+NEcUGA8RcH0SkSPAvQuQWnn0SWvIYeqCpCq9hbwUfTJnGAWXq8mJVGrzALywzHIHHRdbaDkSo9PFq49tPksr4ryK2grq55BGdXCxci25oJihpSDVSM3ZVJFRQwICP1NFPd6HNZTc/mQeY1aBYgjzIbR747hQKiy4+eVB6+lxuPTZ1aY2GSNaxMQIgL8Eg8";
 
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
@@ -308,7 +308,8 @@ public class Move {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
-   public int getHeight(Telemetry telemetry, OpMode opmode){
+   public int getHeight(OpMode opmode){
+        Telemetry telemetry = opmode.telemetry;
 		int toReturn = 0;
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.

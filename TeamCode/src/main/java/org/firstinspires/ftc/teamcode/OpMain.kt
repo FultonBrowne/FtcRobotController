@@ -107,13 +107,18 @@ class OpMain : OpMode() {
       }
 
       if(gamepad1.b){
-           arm!!.setPosition(0.0)
            claw!!.setPosition(0.0)
+           Thread.sleep(1000)
+           arm!!.setPosition(0.0)
+           
       }
 
       else if (gamepad1.x){
          arm!!.setPosition(1.0)
+         Thread.sleep(1000)
          claw!!.setPosition(1.0)
+
+
       }
 
 

@@ -31,6 +31,7 @@ class AutoBlue : LinearOpMode() {
         motor3!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor0!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor0!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        var move = Move()
         autotools = AutoFramework(
            motor0!!,
            motor1!!,
@@ -59,15 +60,15 @@ class AutoBlue : LinearOpMode() {
       autotools!!.right()
       sleep(4000)
       servo1!!.setPosition(1.0)
-      val height = autotools!!.height()
+      val height = move.getHeight(this)
       autotools!!.stop()
 
 /*
       //TODO Move the stack, flip the servo, move forward, read the height - 17	 inches to the stack from final launch - move forward 1 inch
       // Find the height 
 
-      val height = autotools!!.height()
-      if (height == 2.toShort()){
+      val height = move!!.height()
+      if (height == 4.toShort()){
          autotools!!.forward()
          Thread.sleep(15000)
          autotools!!.stop()
@@ -85,6 +86,7 @@ class AutoBlue : LinearOpMode() {
          autotools!!.drop()
          // autotools!!.roll() - gahhhhhhh I'm funny
          // autotools.spinDropSpin()
+         // then pick up the other goal
       }
 
       else {
@@ -96,7 +98,7 @@ class AutoBlue : LinearOpMode() {
          // autotools.spinDropSpin()
 
       }
-      //TODO Park on the center line - this will happen in the above logic
+       move to center line from the place with the other goal
       */
 
    }

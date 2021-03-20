@@ -69,11 +69,6 @@ class AutoFramework(
        servo0.setPosition(1.0)
    }
 
-   fun height(): Short{
-      // this will return 0, 1, or 2
-      return 0
-   }
-
    fun initMove(){
       //TODO get everthing
       forward()
