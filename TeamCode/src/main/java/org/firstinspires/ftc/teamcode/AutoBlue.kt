@@ -5,6 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.framework.*
 const val PEG_LENGTH = 5000
+const val INIT_LENGTH = 0
+const val SIDE_WIDE = 0
+const val SIDE_CLOSE= 0
+const val LENGTH_CLOSE = 0
+const val LENGTH_FAR = 0
+const val LENGTH_MIDDLE = 0
 @Autonomous( name = "Auto Mode 2021")
 class AutoBlue : LinearOpMode() {
    var motor0:DcMotor? = null 
@@ -31,6 +37,8 @@ class AutoBlue : LinearOpMode() {
         motor3!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor0!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor0!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor1!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor1!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         var move = Move()
         autotools = AutoFramework(
            motor0!!,
@@ -47,6 +55,7 @@ class AutoBlue : LinearOpMode() {
        sleep(2000)
        autotools!!.stop()
        autotools!!.shoot()
+       /*
       autotools!!.right()
       while(motor0!!.getCurrentPosition() < PEG_LENGTH) Thread.sleep(10);
       autotools!!.stop()
@@ -60,46 +69,35 @@ class AutoBlue : LinearOpMode() {
       autotools!!.right()
       sleep(4000)
       servo1!!.setPosition(1.0)
+      */
       val height = move.getHeight(this)
       autotools!!.stop()
-
-/*
       //TODO Move the stack, flip the servo, move forward, read the height - 17	 inches to the stack from final launch - move forward 1 inch
       // Find the height 
 
-      val height = move!!.height()
+      val height = move!!.getHeight()
       if (height == 4.toShort()){
          autotools!!.forward()
-         Thread.sleep(15000)
+         while(motor1!!.getCurrentPosition() < LENGTH_FAR){ sleep(10) }
          autotools!!.stop()
          autotools!!.drop()
-         // autotools!!.roll() - gahhhhhhh I'm funny
-         // autotools.spinDropSpin()
       }
 
       else if (height == 1.toShort()){
          autotools!!.forward()
-         Thread.sleep(7500)
-         autotools!!.right()
-         Thread.sleep(2000)
+         while(motor1!!.getCurrentPosition() < LENGTH_MIDDLE){ sleep(10) }
          autotools!!.stop()
          autotools!!.drop()
-         // autotools!!.roll() - gahhhhhhh I'm funny
-         // autotools.spinDropSpin()
-         // then pick up the other goal
       }
 
       else {
          autotools!!.forward()
-         Thread.sleep(3000)
+         while(motor1!!.getCurrentPosition() < LENGTH_CLOSE){ sleep(10) }
          autotools!!.stop()
          autotools!!.drop()
-         // autotools!!.roll() - gahhhhhhh I'm funny
-         // autotools.spinDropSpin()
 
       }
-       move to center line from the place with the other goal
-      */
+      // move to center line from the place with the other goal
 
    }
 }
