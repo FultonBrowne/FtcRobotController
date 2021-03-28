@@ -33,9 +33,12 @@ class OpMain : OpMode() {
         servo1 = hardwareMap.servo["servo0"]
         crservo1 = hardwareMap.crservo["crservo1"]
         arm = hardwareMap.servo["servo3"]
+        color0 = hardwareMap.colorSensor["color0"];
         claw = hardwareMap.servo["servo4"]
         motor0!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor0!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor1!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor1!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor0!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor1!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor2!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
