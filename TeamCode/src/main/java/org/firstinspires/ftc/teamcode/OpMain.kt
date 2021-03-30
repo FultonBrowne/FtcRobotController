@@ -14,6 +14,7 @@ class OpMain : OpMode() {
    var motor5:DcMotor? = null
    var motor6:DcMotor? = null
    var motor7:DcMotor? = null
+   var boom = false
    var servo1:Servo? = null
    var crservo1:CRServo? = null
    var color0:ColorSensor? = null
@@ -55,7 +56,7 @@ class OpMain : OpMode() {
         telemetry.addData(Integer.toString(color0!!.green()), "green");
        telemetry.addData(Integer.toString(color0!!.blue()), "blue");
         telemetry.addData(Integer.toString(color0!!.alpha()), "alpha");
-        if (color0!!.alpha() > 6000) toReturn = true;
+        if (color0!!.alpha() > 600) toReturn = true;
         color0!!.enableLed(true);
        // if (colorSensor)
         return toReturn;
@@ -67,9 +68,10 @@ class OpMain : OpMode() {
 		/* get a bool of yellow true or false */
         telemetry.addData(Integer.toString(motor0!!.getCurrentPosition()), "current position of motor0")
         telemetry.addData(Integer.toString(motor1!!.getCurrentPosition()), "current position of motor1")
-      motor7!!.setPower(-1.0)
+      
 
       val isYellow = isYellow()
+/*
                 if (isYellow){
                    //Turn on firing motors
            motor4!!.setPower(-1.0)
@@ -78,6 +80,29 @@ class OpMain : OpMode() {
             motor4!!.setPower(0.0)
             motor5!!.setPower(0.0)
                 }
+*/
+       if(boom){
+          motor4!!.setPower(-1.0)
+          motor5!!.setPower(-1.0)
+          motor7!!.setPower(-1.0)
+          crservo1!!.setPower(-1.0)
+          if (isYellow) servo1!!.setPosition(0.0)
+          else servo1!!.setPosition(1.0)
+       } else {
+         if(gamepad1.a){
+            //move the belt and raise the *thing*
+             motor4!!.setPower(-1.0)
+             motor5!!.setPower(-1.0)
+             Thread.sleep(2000)
+             crservo1!!.setPower(-1.0)
+             servo1!!.setPosition(0.0) //Set the auto fire here
+          } else { 
+             servo1!!.setPosition(1.0)
+             motor4!!.setPower(0.0)
+             motor5!!.setPower(0.0)
+          }
+      }
+
       if(gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1){
          move.forward(
             motor0, 
@@ -121,26 +146,7 @@ class OpMain : OpMode() {
       }
 
 
-      if(gamepad1.a){
-         //move the belt and raise the *thing*
-          motor4!!.setPower(-1.0)
-          motor5!!.setPower(-1.0)
-          Thread.sleep(2000)
-          crservo1!!.setPower(-1.0)
-          
-          servo1!!.setPosition(0.0) //Set the auto fire here
-      } else { 
-          motor4!!.setPower(0.0)
-          motor5!!.setPower(0.0)
-          servo1!!.setPosition(1.0)
-      }
-
-      if(gamepad1.b){
-          // motor6!!.setPower(-1.0) // add some auto thing?
-          move.getHeight(this)
-      } else {
-         //  motor6!!.setPower(0.0)
-      }
+      
 
       if(gamepad1.b){
            claw!!.setPosition(0.0)
@@ -157,6 +163,11 @@ class OpMain : OpMode() {
 
       }
 
+     if (gamepad1.y && !boom){
+        boom = true
+     } else if (gamepad1.y && !boom) {
+        boom = false
+     }
 
       if(gamepad1.left_bumper){
          move.stop(

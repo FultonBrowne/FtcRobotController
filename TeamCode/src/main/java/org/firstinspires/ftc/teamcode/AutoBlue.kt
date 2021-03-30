@@ -21,8 +21,15 @@ class AutoBlue : LinearOpMode() {
    var motor4:DcMotor? = null 
    var motor5:DcMotor? = null
    var servo0:Servo? = null
+   var arm:Servo? = null
+   var claw:Servo? = null
    var crservo1:CRServo? = null
    var autotools:AutoFramework? = null
+   fun drop(){
+     arm!!.setPosition(1.0)
+     Thread.sleep(1000)
+     claw!!.setPosition(1.0)
+   }
    override fun runOpMode(){
         motor0 = hardwareMap.dcMotor["motor0"]
         motor1 = hardwareMap.dcMotor["motor1"]
@@ -31,6 +38,8 @@ class AutoBlue : LinearOpMode() {
         motor4 = hardwareMap.dcMotor["motor4"]
         motor5 = hardwareMap.dcMotor["motor5"]
         servo0 = hardwareMap.servo["servo0"]
+        arm = hardwareMap.servo["servo3"]
+        claw = hardwareMap.servo["servo4"]
         crservo1 = hardwareMap.crservo["crservo1"]
         motor0!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor1!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
@@ -48,6 +57,7 @@ class AutoBlue : LinearOpMode() {
            motor3!!,
            servo0!!
         )
+        claw!!.setPosition(0.0)
         waitForStart()
 
        motor4!!.setPower(-1.0)
@@ -85,7 +95,7 @@ class AutoBlue : LinearOpMode() {
          autotools!!.right()
          while(motor0!!.getCurrentPosition() > /* negative number */ SIDE_WIDE){ sleep(10) }
          autotools!!.stop()
-         autotools!!.drop()
+         drop()
       }
 
       else if (height == 1){
@@ -94,7 +104,7 @@ class AutoBlue : LinearOpMode() {
          autotools!!.right()
          while(motor0!!.getCurrentPosition() > /* negative number */ SIDE_CLOSE){ sleep(10) }
          autotools!!.stop()
-         autotools!!.drop()
+         drop()
       }
 
       else {
@@ -103,7 +113,7 @@ class AutoBlue : LinearOpMode() {
          autotools!!.right()
          while(motor0!!.getCurrentPosition() > /* negative number */ SIDE_WIDE){ sleep(10) }
          autotools!!.stop()
-         autotools!!.drop()
+         drop()
 
       }
       // move to center line from the place with the other goal

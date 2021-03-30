@@ -326,12 +326,14 @@ public class Move {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(2.5, 16.0/9.0);
+            tfod.setZoom(1.0, 16.0/9.0);
         }
 
    if (tfod != null) {
       // getUpdatedRecognitions() will return null if no new information is available since
       // the last time that call was made.
+      tfod.getUpdatedRecognitions();
+      try{ Thread.sleep(1000); } catch(Throwable e){}
       List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
       if (updatedRecognitions != null) {
          telemetry.addData("# Object Detected", updatedRecognitions.size());
