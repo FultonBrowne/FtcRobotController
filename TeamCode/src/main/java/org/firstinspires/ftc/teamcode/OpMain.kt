@@ -16,6 +16,8 @@ class OpMain : OpMode() {
    var motor7:DcMotor? = null
    var boom = false
    var servo1:Servo? = null
+   var servo01:Servo? = null
+   var servo02:Servo? = null
    var crservo1:CRServo? = null
    var color0:ColorSensor? = null
    var arm:Servo? = null
@@ -36,6 +38,8 @@ class OpMain : OpMode() {
         arm = hardwareMap.servo["servo3"]
         color0 = hardwareMap.colorSensor["color0"];
         claw = hardwareMap.servo["servo4"]
+        servo01 = hardwareMap.servo["servo11"]
+        servo02 = hardwareMap.servo["servo12"]
         motor0!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor0!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor1!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -132,7 +136,7 @@ class OpMain : OpMode() {
             motor1,
             motor2,
             motor3,
-            gamepad1.right_stick_x
+            -gamepad1.right_stick_x
          )
       }
 
@@ -156,27 +160,26 @@ class OpMain : OpMode() {
       }
 
       else if (gamepad1.x){
-         arm!!.setPosition(1.0)
-         Thread.sleep(1000)
+         
          claw!!.setPosition(1.0)
+         Thread.sleep(1000)
+         arm!!.setPosition(1.0)
 
 
       }
 
      if (gamepad1.y && !boom){
         boom = true
-     } else if (gamepad1.y && !boom) {
+     } else if (gamepad1.y && boom) {
         boom = false
      }
 
       if(gamepad1.left_bumper){
-         move.stop(
-            motor0, 
-            motor1,
-            motor2,
-            motor3
-         )
+          servo02!!.setPosition(1.0)
+      } else {
+         servo02!!.setPosition(0.0)
       }
+       servo01!!.setPosition(0.0)
 
    }
 

@@ -17,6 +17,7 @@ const val GOAL_LENGTH_CLOSE = -61000
 const val GOAL_LENGTH_FAR = 0
 const val GOAL_LENGTH_MIDDLE = 0
 const val GOAL_RETURN_CLOSE = 58000
+const val GOAL_RETURN_FAR = 0
 const val BUFFER_LENGTH = 0
 @Autonomous( name = "Auto Mode 2021")
 class AutoBlue : LinearOpMode() {
@@ -30,6 +31,7 @@ class AutoBlue : LinearOpMode() {
    var arm:Servo? = null
    var claw:Servo? = null
    var crservo1:CRServo? = null
+   var servo12:Servo? = null
    var autotools:AutoFramework? = null
    fun drop(){
      arm!!.setPosition(1.0)
@@ -49,6 +51,7 @@ class AutoBlue : LinearOpMode() {
         motor4 = hardwareMap.dcMotor["motor4"]
         motor5 = hardwareMap.dcMotor["motor5"]
         servo0 = hardwareMap.servo["servo0"]
+        servo12 = hardwareMap.servo["servo12"]
         arm = hardwareMap.servo["servo3"]
         claw = hardwareMap.servo["servo4"]
         crservo1 = hardwareMap.crservo["crservo1"]
@@ -166,6 +169,7 @@ class AutoBlue : LinearOpMode() {
          drop()
       }
       // move to center line from the place with the other goal
+      servo12!!.setPosition(1.0)
 
    }
 }
