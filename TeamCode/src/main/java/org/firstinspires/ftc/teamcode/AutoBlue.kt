@@ -5,16 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.framework.*
 const val PEG_LENGTH = 5000
-const val INIT_LENGTH = 44000
+const val INIT_LENGTH = 50000
 const val SIDE_WIDE = -45000
 const val SIDE_CLOSE= -20000
-const val LENGTH_CLOSE = 38000
-const val LENGTH_FAR = 84500
-const val LENGTH_MIDDLE = 62500
+const val LENGTH_CLOSE = 32000
+const val LENGTH_FAR = 78500
+const val LENGTH_MIDDLE = 56500
 const val GOAL_LEFT_WIDE = 16000
 const val GOAL_LEFT_CLOSE= 0
 const val GOAL_LENGTH_CLOSE = -61000
-const val GOAL_LENGTH_FAR = 0
+const val GOAL_LENGTH_FAR = -107500
 const val GOAL_LENGTH_MIDDLE = 0
 const val GOAL_RETURN_CLOSE = 58000
 const val GOAL_RETURN_FAR = 0
