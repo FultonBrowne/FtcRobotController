@@ -5,19 +5,20 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.framework.*
 const val PEG_LENGTH = 5000
-const val INIT_LENGTH = 50000
+const val INIT_LENGTH = 55600
 const val SIDE_WIDE = -45000
 const val SIDE_CLOSE= -20000
-const val LENGTH_CLOSE = 32000
-const val LENGTH_FAR = 78500
-const val LENGTH_MIDDLE = 56500
+const val LENGTH_CLOSE = 26400
+const val LENGTH_FAR = 72900
+const val LENGTH_MIDDLE = 50900
 const val GOAL_LEFT_WIDE = 16000
 const val GOAL_LEFT_CLOSE= 0
 const val GOAL_LENGTH_CLOSE = -61000
 const val GOAL_LENGTH_FAR = -107500
-const val GOAL_LENGTH_MIDDLE = 0
+const val GOAL_LENGTH_MIDDLE = -85500
 const val GOAL_RETURN_CLOSE = 58000
-const val GOAL_RETURN_FAR = 0
+const val GOAL_RETURN_MIDDLE = 82500
+const val GOAL_RETURN_FAR = 104500
 const val BUFFER_LENGTH = 0
 @Autonomous( name = "Auto Mode 2021")
 class AutoBlue : LinearOpMode() {
@@ -32,6 +33,7 @@ class AutoBlue : LinearOpMode() {
    var claw:Servo? = null
    var crservo1:CRServo? = null
    var servo12:Servo? = null
+   var servo10:Servo? = null
    var autotools:AutoFramework? = null
    fun drop(){
      arm!!.setPosition(1.0)
@@ -52,6 +54,7 @@ class AutoBlue : LinearOpMode() {
         motor5 = hardwareMap.dcMotor["motor5"]
         servo0 = hardwareMap.servo["servo0"]
         servo12 = hardwareMap.servo["servo12"]
+        servo10 = hardwareMap.servo["servo10"]
         arm = hardwareMap.servo["servo3"]
         claw = hardwareMap.servo["servo4"]
         crservo1 = hardwareMap.crservo["crservo1"]
@@ -72,6 +75,7 @@ class AutoBlue : LinearOpMode() {
            servo0!!
         )
         claw!!.setPosition(0.0)
+        servo10!!.setPosition(0.0)
         waitForStart()
 
        motor4!!.setPower(-1.0)
@@ -126,6 +130,7 @@ class AutoBlue : LinearOpMode() {
          sleep(1000)
          autotools!!.forward()
          while(motor1!!.getCurrentPosition() < GOAL_RETURN_FAR){ sleep(10) }
+         stop()
          drop()
          
       }
@@ -137,12 +142,22 @@ class AutoBlue : LinearOpMode() {
          while(motor0!!.getCurrentPosition() > /* negative number */ SIDE_CLOSE){ sleep(10) }
          autotools!!.stop()
          drop()
+         sleep(1000)
          autotools!!.left()
-         while(motor0!!.getCurrentPosition() >  GOAL_LEFT_CLOSE){ sleep(10) }
+         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_CLOSE){ sleep(10) }
          autotools!!.back()
-         while(motor1!!.getCurrentPosition() < /* negative number */ GOAL_LENGTH_MIDDLE){ sleep(10) }
+         while(motor1!!.getCurrentPosition() > /* negative number */ GOAL_LENGTH_MIDDLE){ sleep(10) }
+         if(motor0!!.getCurrentPosition() > GOAL_LEFT_CLOSE){
+            autotools!!.right()
+            while(motor0!!.getCurrentPosition() >  GOAL_LEFT_CLOSE){ sleep(10) }
+         }
          autotools!!.stop()
          lift()
+         sleep(1000)
+         autotools!!.forward()
+         while(motor1!!.getCurrentPosition() < GOAL_RETURN_MIDDLE){ sleep(10) }
+         stop()
+         drop()
       }
 
       else {
@@ -166,6 +181,7 @@ class AutoBlue : LinearOpMode() {
          sleep(1000)
          autotools!!.forward()
          while(motor1!!.getCurrentPosition() < GOAL_RETURN_CLOSE){ sleep(10) }
+         autotools!!.stop()
          drop()
       }
       // move to center line from the place with the other goal

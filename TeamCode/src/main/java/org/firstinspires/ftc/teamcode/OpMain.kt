@@ -38,7 +38,7 @@ class OpMain : OpMode() {
         crservo1 = hardwareMap.crservo["crservo1"]
         arm = hardwareMap.servo["servo3"]
         color0 = hardwareMap.colorSensor["color0"];
-        color1 = hardwareMap.colorSensor["color0"];
+        color1 = hardwareMap.colorSensor["color1"];
         claw = hardwareMap.servo["servo4"]
         servo01 = hardwareMap.servo["servo11"]
         servo02 = hardwareMap.servo["servo12"]
@@ -53,6 +53,7 @@ class OpMain : OpMode() {
         motor4!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor5!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor6!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
+        servo01!!.setPosition(0.0)
    }
 
  fun isYellow(color:ColorSensor?):Boolean{
@@ -97,9 +98,11 @@ class OpMain : OpMode() {
           val isYellow2 = isYellow(color1)
           if(isYellow2){
              servo02!!.setPosition(1.0)
-         } else {
-            servo02!!.setPosition(0.0)
-         }
+             Thread.sleep(1000)
+             servo02!!.setPosition(0.0)
+          } else {
+             servo02!!.setPosition(1.0)
+          }
 
        } else {
          if(gamepad1.a){
@@ -113,6 +116,11 @@ class OpMain : OpMode() {
              servo1!!.setPosition(1.0)
              motor4!!.setPower(0.0)
              motor5!!.setPower(0.0)
+          }
+          if(gamepad1.left_bumper){
+              servo02!!.setPosition(1.0)
+          } else {
+             servo02!!.setPosition(0.0)
           }
       }
 
@@ -165,30 +173,20 @@ class OpMain : OpMode() {
            claw!!.setPosition(0.0)
            Thread.sleep(1000)
            arm!!.setPosition(0.0)
-           
       }
 
       else if (gamepad1.x){
-         
          claw!!.setPosition(1.0)
          Thread.sleep(1000)
          arm!!.setPosition(1.0)
-
-
       }
 
-     if (gamepad1.y && !boom){
-        boom = true
-     } else if (gamepad1.y && boom) {
-        boom = false
-     }
-
-      if(gamepad1.left_bumper){
-          servo02!!.setPosition(1.0)
+      if(gamepad1.right_bumper){
+//          servo03!!.setPower(1.0)
       } else {
-         servo02!!.setPosition(0.0)
+//         servo03!!.setPower(0.0)
       }
-       servo01!!.setPosition(0.0)
+
 
    }
 
