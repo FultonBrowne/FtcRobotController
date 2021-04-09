@@ -28,6 +28,7 @@ class AutoBlue : LinearOpMode() {
    var motor3:DcMotor? = null
    var motor4:DcMotor? = null 
    var motor5:DcMotor? = null
+   var motor7:DcMotor? = null
    var servo0:Servo? = null
    var arm:Servo? = null
    var claw:Servo? = null
@@ -55,6 +56,7 @@ class AutoBlue : LinearOpMode() {
         servo0 = hardwareMap.servo["servo0"]
         servo12 = hardwareMap.servo["servo12"]
         servo10 = hardwareMap.servo["servo10"]
+        motor7 = hardwareMap.dcMotor["motor7"]
         arm = hardwareMap.servo["servo3"]
         claw = hardwareMap.servo["servo4"]
         crservo1 = hardwareMap.crservo["crservo1"]
@@ -75,11 +77,12 @@ class AutoBlue : LinearOpMode() {
            servo0!!
         )
         claw!!.setPosition(0.0)
-        servo10!!.setPosition(0.0)
+        servo10!!.setPosition(0.9)
         waitForStart()
 
        motor4!!.setPower(-1.0)
        motor5!!.setPower(-1.0)
+       motor7!!.setPower(-1.0)
        crservo1!!.setPower(-1.0)
        autotools!!.forward()
        while(motor1!!.getCurrentPosition() < INIT_LENGTH){ sleep(10) }
@@ -87,6 +90,8 @@ class AutoBlue : LinearOpMode() {
        autotools!!.shoot()
        motor4!!.setPower(0.0)
        motor5!!.setPower(0.0)
+       motor7!!.setPower(0.0)
+       crservo1!!.setPower(0.0)
        autotools!!.right()
        while(motor0!!.getCurrentPosition() < BUFFER_LENGTH){ sleep(10) }
        autotools!!.stop()
@@ -132,7 +137,6 @@ class AutoBlue : LinearOpMode() {
          while(motor1!!.getCurrentPosition() < GOAL_RETURN_FAR){ sleep(10) }
          stop()
          drop()
-         
       }
 
       else if (height == 1){
@@ -144,7 +148,7 @@ class AutoBlue : LinearOpMode() {
          drop()
          sleep(1000)
          autotools!!.left()
-         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_CLOSE){ sleep(10) }
+         while(motor0!!.getCurrentPosition() < -SIDE_CLOSE){ sleep(10) }
          autotools!!.back()
          while(motor1!!.getCurrentPosition() > /* negative number */ GOAL_LENGTH_MIDDLE){ sleep(10) }
          if(motor0!!.getCurrentPosition() > GOAL_LEFT_CLOSE){
@@ -154,6 +158,8 @@ class AutoBlue : LinearOpMode() {
          autotools!!.stop()
          lift()
          sleep(1000)
+         autotools!!.left()
+          while(motor0!!.getCurrentPosition() <  -GOAL_LEFT_CLOSE){ sleep(10) }
          autotools!!.forward()
          while(motor1!!.getCurrentPosition() < GOAL_RETURN_MIDDLE){ sleep(10) }
          stop()

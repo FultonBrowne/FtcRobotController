@@ -16,7 +16,9 @@ class OpMain : OpMode() {
    var motor7:DcMotor? = null
    var boom = false
    var servo1:Servo? = null
-   var servo01:Servo? = null
+   var servo01:Servo? = null 
+   var servo00:Servo? = null
+
    var servo02:Servo? = null
    var crservo1:CRServo? = null
    var color0:ColorSensor? = null
@@ -40,6 +42,7 @@ class OpMain : OpMode() {
         color0 = hardwareMap.colorSensor["color0"];
         color1 = hardwareMap.colorSensor["color1"];
         claw = hardwareMap.servo["servo4"]
+        servo00 = hardwareMap.servo["servo10"]
         servo01 = hardwareMap.servo["servo11"]
         servo02 = hardwareMap.servo["servo12"]
         motor0!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -54,16 +57,17 @@ class OpMain : OpMode() {
         motor5!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor6!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         servo01!!.setPosition(0.0)
+        servo00!!.setPosition(0.1)
    }
 
- fun isYellow(color:ColorSensor?):Boolean{
+ fun isYellow(color:ColorSensor?, num:Int):Boolean{
       var toReturn = false;
         telemetry.addData(Integer.toString(color!!.argb()), "all");
        telemetry.addData(Integer.toString(color!!.red()), "red");
         telemetry.addData(Integer.toString(color!!.green()), "green");
        telemetry.addData(Integer.toString(color!!.blue()), "blue");
         telemetry.addData(Integer.toString(color!!.alpha()), "alpha");
-        if (color!!.alpha() > 600) toReturn = true;
+        if (color!!.alpha() > num) toReturn = true;
         color!!.enableLed(true);
        // if (colorSensor)
         return toReturn;
@@ -77,7 +81,7 @@ class OpMain : OpMode() {
         telemetry.addData(Integer.toString(motor1!!.getCurrentPosition()), "current position of motor1")
       
 
-      val isYellow = isYellow(color0)
+      val isYellow = isYellow(color0, 600)
 /*
                 if (isYellow){
                    //Turn on firing motors
@@ -91,17 +95,18 @@ class OpMain : OpMode() {
        if(boom){
           motor4!!.setPower(-1.0)
           motor5!!.setPower(-1.0)
+          motor6!!.setPower(1.0)
           motor7!!.setPower(-1.0)
           crservo1!!.setPower(-1.0)
           if (isYellow) servo1!!.setPosition(0.0)
           else servo1!!.setPosition(1.0)
-          val isYellow2 = isYellow(color1)
+          val isYellow2 = isYellow(color1, 100)
           if(isYellow2){
              servo02!!.setPosition(1.0)
              Thread.sleep(1000)
              servo02!!.setPosition(0.0)
           } else {
-             servo02!!.setPosition(1.0)
+             servo02!!.setPosition(0.0)
           }
 
        } else {
@@ -187,6 +192,11 @@ class OpMain : OpMode() {
 //         servo03!!.setPower(0.0)
       }
 
+     if (gamepad1.y && !boom){
+        boom = true
+     } else if (gamepad1.y && boom) {
+        boom = false
+     }
 
    }
 
