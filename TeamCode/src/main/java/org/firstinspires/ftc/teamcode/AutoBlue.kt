@@ -9,12 +9,13 @@ const val INIT_LENGTH = 55600
 const val SIDE_WIDE = -45000
 const val SIDE_CLOSE= -20000
 const val LENGTH_CLOSE = 26400
-const val LENGTH_FAR = 72900
+const val LENGTH_FAR = 70000
 const val LENGTH_MIDDLE = 50900
 const val GOAL_LEFT_WIDE = 16000
+const val GOAL_LEFT_MORE_WIDE = 24000
 const val GOAL_LEFT_CLOSE= 0
 const val GOAL_LENGTH_CLOSE = -61000
-const val GOAL_LENGTH_FAR = -107500
+const val GOAL_LENGTH_FAR = -97500
 const val GOAL_LENGTH_MIDDLE = -85500
 const val GOAL_RETURN_CLOSE = 58000
 const val GOAL_RETURN_MIDDLE = 82500
@@ -123,7 +124,7 @@ class AutoBlue : LinearOpMode() {
          drop()
          sleep(1000)
          autotools!!.left()
-         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_WIDE){ sleep(10) }
+         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_MORE_WIDE){ sleep(10) }
          autotools!!.back()
          while(motor1!!.getCurrentPosition() > /* negative number */ GOAL_LENGTH_FAR){ sleep(10) }
          if(motor0!!.getCurrentPosition() > GOAL_LEFT_WIDE){
@@ -133,9 +134,11 @@ class AutoBlue : LinearOpMode() {
          autotools!!.stop()
          lift()
          sleep(1000)
+         autotools!!.left()
+         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_WIDE){ sleep(10) }
          autotools!!.forward()
          while(motor1!!.getCurrentPosition() < GOAL_RETURN_FAR){ sleep(10) }
-         stop()
+         autotools!!.stop()
          drop()
       }
 
