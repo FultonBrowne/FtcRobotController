@@ -151,21 +151,21 @@ class AutoBlue : LinearOpMode() {
          drop()
          sleep(1000)
          autotools!!.left()
-         while(motor0!!.getCurrentPosition() < -SIDE_CLOSE){ sleep(10) }
+         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_CLOSE){ sleep(10) } //TODO
          autotools!!.back()
          while(motor1!!.getCurrentPosition() > /* negative number */ GOAL_LENGTH_MIDDLE){ sleep(10) }
-         if(motor0!!.getCurrentPosition() > GOAL_LEFT_CLOSE){
+         if(motor0!!.getCurrentPosition() > GOAL_LEFT_WIDE){ //BUG
             autotools!!.right()
-            while(motor0!!.getCurrentPosition() >  GOAL_LEFT_CLOSE){ sleep(10) }
+            while(motor0!!.getCurrentPosition() >  GOAL_LEFT_WIDE){ sleep(10) } //BUG
          }
          autotools!!.stop()
          lift()
          sleep(1000)
          autotools!!.left()
-          while(motor0!!.getCurrentPosition() <  -GOAL_LEFT_CLOSE){ sleep(10) }
+         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_CLOSE){ sleep(10) }
          autotools!!.forward()
          while(motor1!!.getCurrentPosition() < GOAL_RETURN_MIDDLE){ sleep(10) }
-         stop()
+         autotools!!.stop()
          drop()
       }
 
