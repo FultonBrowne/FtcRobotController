@@ -6,20 +6,21 @@ import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.framework.*
 const val PEG_LENGTH = 5000
 const val INIT_LENGTH = 55600
-const val SIDE_WIDE = -45000
-const val SIDE_CLOSE= -20000
+const val SIDE_WIDE = -32000 // to change
+const val SIDE_CLOSE= -6000 // to change
 const val LENGTH_CLOSE = 26400
 const val LENGTH_FAR = 70000
 const val LENGTH_MIDDLE = 50900
-const val GOAL_LEFT_WIDE = 16000
-const val GOAL_LEFT_MORE_WIDE = 24000
-const val GOAL_LEFT_CLOSE= 0
+const val GOAL_LEFT_WIDE = 16000 //to change
+const val GOAL_LEFT_MORE_WIDE = 24000 //to change
+const val GOAL_LEFT_CLOSE= 15000 // to change
 const val GOAL_LENGTH_CLOSE = -61000
 const val GOAL_LENGTH_FAR = -97500
 const val GOAL_LENGTH_MIDDLE = -85500
 const val GOAL_RETURN_CLOSE = 58000
 const val GOAL_RETURN_MIDDLE = 82500
 const val GOAL_RETURN_FAR = 104500
+const val ROTATE = -250
 const val BUFFER_LENGTH = 0
 @Autonomous( name = "Auto Mode 2021")
 class AutoBlue : LinearOpMode() {
@@ -78,23 +79,26 @@ class AutoBlue : LinearOpMode() {
            servo0!!
         )
         claw!!.setPosition(0.0)
-        servo10!!.setPosition(0.9)
+        servo10!!.setPosition(0.2)
         waitForStart()
 
        motor4!!.setPower(-1.0)
        motor5!!.setPower(-1.0)
        motor7!!.setPower(-1.0)
-       crservo1!!.setPower(-1.0)
        autotools!!.forward()
        while(motor1!!.getCurrentPosition() < INIT_LENGTH){ sleep(10) }
        autotools!!.stop()
-       autotools!!.shoot()
+       autotools!!.spin()
+       while (motor0!!.getCurrentPosition() > ROTATE){ sleep(10)}
+       crservo1!!.setPower(-1.0)
+       autotools!!.stop()
+       sleep(3000)
+       crservo1!!.setPower(0.0)
        motor4!!.setPower(0.0)
        motor5!!.setPower(0.0)
        motor7!!.setPower(0.0)
-       crservo1!!.setPower(0.0)
-       autotools!!.right()
-       while(motor0!!.getCurrentPosition() < BUFFER_LENGTH){ sleep(10) }
+       autotools!!.spinBack()
+       while(motor0!!.getCurrentPosition() < 0){sleep(10)}
        autotools!!.stop()
        /*
       autotools!!.right()
@@ -151,12 +155,12 @@ class AutoBlue : LinearOpMode() {
          drop()
          sleep(1000)
          autotools!!.left()
-         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_CLOSE){ sleep(10) } //TODO
+         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_WIDE){ sleep(10) } //TODO
          autotools!!.back()
          while(motor1!!.getCurrentPosition() > /* negative number */ GOAL_LENGTH_MIDDLE){ sleep(10) }
-         if(motor0!!.getCurrentPosition() > GOAL_LEFT_WIDE){ //BUG
+         if(motor0!!.getCurrentPosition() < GOAL_LEFT_CLOSE){ //BUG
             autotools!!.right()
-            while(motor0!!.getCurrentPosition() >  GOAL_LEFT_WIDE){ sleep(10) } //BUG
+            while(motor0!!.getCurrentPosition() <  GOAL_LEFT_CLOSE){ sleep(10) } //BUG
          }
          autotools!!.stop()
          lift()

@@ -18,7 +18,7 @@ class AutoFramework(
          motor1,
          motor2,
          motor3,
-         -1.0.toFloat()
+         -0.8.toFloat()
       )
    }
 
@@ -28,7 +28,7 @@ class AutoFramework(
          motor1,
          motor2,
          motor3,
-          -1.0.toFloat()
+          -0.8.toFloat()
       )
 
    }
@@ -39,7 +39,7 @@ class AutoFramework(
          motor1,
          motor2,
          motor3,
-         -1.0.toFloat()
+         -0.8.toFloat()
       )
 
    }
@@ -50,7 +50,7 @@ class AutoFramework(
          motor1,
          motor2,
          motor3,
-          -1.0.toFloat()
+          -0.8.toFloat()
       )
 
    }
@@ -70,9 +70,30 @@ class AutoFramework(
    }
 
    fun shoot(){
-       servo0!!.setPosition(0.0)
-       Thread.sleep(2000)
-       servo0.setPosition(1.0)
+       move.spin(
+         motor0,
+         motor1,
+         motor2,
+         motor3
+      )
+   }
+
+   fun spin(){
+       move.spinOtherWay(
+         motor0,
+         motor1,
+         motor2,
+         motor3
+      )
+   }
+
+   fun spinBack(){
+      move.spin(
+         motor0,
+         motor1,
+         motor2,
+         motor3
+      )
    }
 
    fun initMove(){
