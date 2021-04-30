@@ -122,7 +122,7 @@ class OpMain : OpMode() {
             motor1,
             motor2,
             motor3,
-            -gamepad1.right_stick_x * 0.8
+            -gamepad1.right_stick_x * 0.4.toFloat()
          )
       }
       else{

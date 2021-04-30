@@ -5,23 +5,27 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.framework.*
 const val PEG_LENGTH = 5000
-const val INIT_LENGTH = 55600
+const val INIT_LENGTH = -55000
+const val BUFFER = 19000
 const val SIDE_WIDE = -32000 // to change
 const val SIDE_CLOSE= -6000 // to change
-const val LENGTH_CLOSE = 26400
-const val LENGTH_FAR = 70000
-const val LENGTH_MIDDLE = 50900
-const val GOAL_LEFT_WIDE = 16000 //to change
+const val LENGTH_CLOSE = -20000
+const val LENGTH_FAR = -70000
+const val LENGTH_MIDDLE = -50900
+const val GOAL_LEFT_WIDE = 25000 //to change
 const val GOAL_LEFT_MORE_WIDE = 24000 //to change
 const val GOAL_LEFT_CLOSE= 15000 // to change
-const val GOAL_LENGTH_CLOSE = -61000
-const val GOAL_LENGTH_FAR = -97500
-const val GOAL_LENGTH_MIDDLE = -85500
-const val GOAL_RETURN_CLOSE = 58000
-const val GOAL_RETURN_MIDDLE = 82500
-const val GOAL_RETURN_FAR = 104500
-const val ROTATE = -250
-const val BUFFER_LENGTH = 0
+const val GOAL_LENGTH_CLOSE = 50000
+const val GOAL_LENGTH_FAR = 97500
+const val GOAL_LENGTH_MIDDLE = 85500
+const val GOAL_RETURN_CLOSE = -50000
+const val GOAL_RETURN_MIDDLE = -82500
+const val GOAL_RETURN_FAR = -104500
+const val ROTATE = -750
+const val INIT_RIGHT = -30000
+const val BUFFER_LEFT = 8500
+const val INCH = 6000
+
 @Autonomous( name = "Auto Mode 2021")
 class AutoBlue : LinearOpMode() {
    var motor0:DcMotor? = null 
@@ -49,6 +53,19 @@ class AutoBlue : LinearOpMode() {
      arm!!.setPosition(0.0)
    }
    override fun runOpMode(){
+
+/*
+Auto mode redo:
+
+First scan rings
+
+pull forward go right and then shoot
+
+go to the needed sqare (for the middle go left first
+
+drop, go back, left, back, right, pickup
+left, forward, right, forward, drop
+*/
         motor0 = hardwareMap.dcMotor["motor0"]
         motor1 = hardwareMap.dcMotor["motor1"]
         motor2 = hardwareMap.dcMotor["motor2"]
@@ -79,121 +96,103 @@ class AutoBlue : LinearOpMode() {
            servo0!!
         )
         claw!!.setPosition(0.0)
-        servo10!!.setPosition(0.2)
+        servo10!!.setPosition(0.1)
         waitForStart()
-
+       val height = move!!.getHeight(this)
        motor4!!.setPower(-1.0)
        motor5!!.setPower(-1.0)
        motor7!!.setPower(-1.0)
        autotools!!.forward()
-       while(motor1!!.getCurrentPosition() < INIT_LENGTH){ sleep(10) }
+       while(motor1!!.getCurrentPosition() > INIT_LENGTH){ sleep(10) }
+       autotools!!.stop()
+       sleep(1000)
+       autotools!!.right()
+       while(motor0!!.getCurrentPosition() > INIT_RIGHT){sleep(10)}
        autotools!!.stop()
        autotools!!.spin()
-       while (motor0!!.getCurrentPosition() > ROTATE){ sleep(10)}
-       crservo1!!.setPower(-1.0)
+       while(motor0!!.getCurrentPosition() < ROTATE){sleep(10)}
        autotools!!.stop()
+       crservo1!!.setPower(-1.0)
        sleep(3000)
        crservo1!!.setPower(0.0)
        motor4!!.setPower(0.0)
        motor5!!.setPower(0.0)
        motor7!!.setPower(0.0)
-       autotools!!.spinBack()
-       while(motor0!!.getCurrentPosition() < 0){sleep(10)}
-       autotools!!.stop()
-       /*
-      autotools!!.right()
-      while(motor0!!.getCurrentPosition() < PEG_LENGTH) Thread.sleep(10);
+       autotools!!.forward()
+       while(motor1!!.getCurrentPosition() > BUFFER){ sleep(10) }
       autotools!!.stop()
-      autotools!!.shoot()
-      autotools!!.right()
-      while(motor0!!.getCurrentPosition() < PEG_LENGTH - 1500) Thread.sleep(10);
-      autotools!!.stop()
-      autotools!!.shoot()
-      autotools!!.right()
-      motor4!!.setPower(-1.0)
-      motor5!!.setPower(-1.0)
-      crservo1!!.setPower(-1.0)
-      sleep(4000)
-      servo1!!.setPosition(1.0)
-      */
-      autotools!!.stop()
-      // Find the height 
-      val height = move!!.getHeight(this)
+      sleep(500)
       if (height == 4){
          autotools!!.forward()
-         while(motor1!!.getCurrentPosition() < LENGTH_FAR){ sleep(10) }
-         autotools!!.right()
-         while(motor0!!.getCurrentPosition() > /* negative number */ SIDE_WIDE){ sleep(10) }
+         while(motor1!!.getCurrentPosition() > LENGTH_CLOSE){ sleep(10) }
          autotools!!.stop()
          drop()
-         sleep(1000)
+         sleep(3000)
          autotools!!.left()
-         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_MORE_WIDE){ sleep(10) }
+         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_WIDE){ sleep(10) }
          autotools!!.back()
-         while(motor1!!.getCurrentPosition() > /* negative number */ GOAL_LENGTH_FAR){ sleep(10) }
-         if(motor0!!.getCurrentPosition() > GOAL_LEFT_WIDE){
-            autotools!!.right()
-            while(motor0!!.getCurrentPosition() >  GOAL_LEFT_WIDE){ sleep(10) }
-         }
+         while(motor1!!.getCurrentPosition() < /* negative number */ GOAL_LENGTH_FAR){ sleep(10) }
+         autotools!!.stop()
+         sleep(700)
+         autotools!!.right()
+         while(motor0!!.getCurrentPosition() > -0.25 * GOAL_LEFT_WIDE){ sleep(10) }     
          autotools!!.stop()
          lift()
          sleep(1000)
          autotools!!.left()
-         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_WIDE){ sleep(10) }
+         while(motor0!!.getCurrentPosition() > 0.25 * GOAL_LEFT_WIDE){ sleep(10) }
          autotools!!.forward()
-         while(motor1!!.getCurrentPosition() < GOAL_RETURN_FAR){ sleep(10) }
+         while(motor1!!.getCurrentPosition() > GOAL_RETURN_FAR){ sleep(10) }
          autotools!!.stop()
          drop()
       }
 
       else if (height == 1){
          autotools!!.forward()
-         while(motor1!!.getCurrentPosition() < LENGTH_MIDDLE){ sleep(10) }
-         autotools!!.right()
-         while(motor0!!.getCurrentPosition() > /* negative number */ SIDE_CLOSE){ sleep(10) }
+         while(motor1!!.getCurrentPosition() > LENGTH_CLOSE){ sleep(10) }
          autotools!!.stop()
          drop()
-         sleep(1000)
+         sleep(3000)
          autotools!!.left()
-         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_WIDE){ sleep(10) } //TODO
+         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_WIDE){ sleep(10) }
          autotools!!.back()
-         while(motor1!!.getCurrentPosition() > /* negative number */ GOAL_LENGTH_MIDDLE){ sleep(10) }
-         if(motor0!!.getCurrentPosition() < GOAL_LEFT_CLOSE){ //BUG
-            autotools!!.right()
-            while(motor0!!.getCurrentPosition() <  GOAL_LEFT_CLOSE){ sleep(10) } //BUG
-         }
+         while(motor1!!.getCurrentPosition() < /* negative number */ GOAL_LENGTH_MIDDLE){ sleep(10) }
+         autotools!!.stop()
+         sleep(700)
+         autotools!!.right()
+         while(motor0!!.getCurrentPosition() > -0.50 * GOAL_LEFT_WIDE){ sleep(10) }     
          autotools!!.stop()
          lift()
          sleep(1000)
          autotools!!.left()
-         while(motor0!!.getCurrentPosition() <  GOAL_LEFT_CLOSE){ sleep(10) }
+         while(motor0!!.getCurrentPosition() > 0.25 * GOAL_LEFT_WIDE){ sleep(10) }
          autotools!!.forward()
-         while(motor1!!.getCurrentPosition() < GOAL_RETURN_MIDDLE){ sleep(10) }
+         while(motor1!!.getCurrentPosition() > GOAL_RETURN_MIDDLE){ sleep(10) }
          autotools!!.stop()
          drop()
       }
 
       else {
          autotools!!.forward()
-         while(motor1!!.getCurrentPosition() < LENGTH_CLOSE){ sleep(10) }
-         autotools!!.right()
-         while(motor0!!.getCurrentPosition() > /* negative number */ SIDE_WIDE){ sleep(10) }
+         while(motor1!!.getCurrentPosition() > LENGTH_CLOSE){ sleep(10) }
          autotools!!.stop()
          drop()
-         sleep(1000)
+         sleep(3000)
          autotools!!.left()
          while(motor0!!.getCurrentPosition() <  GOAL_LEFT_WIDE){ sleep(10) }
          autotools!!.back()
-         while(motor1!!.getCurrentPosition() > /* negative number */ GOAL_LENGTH_CLOSE){ sleep(10) }
-         if(motor0!!.getCurrentPosition() > GOAL_LEFT_WIDE){
-            autotools!!.right()
-            while(motor0!!.getCurrentPosition() >  GOAL_LEFT_WIDE){ sleep(10) }
-         }
+         while(motor1!!.getCurrentPosition() < /* negative number */ GOAL_LENGTH_CLOSE){ sleep(10) }
+         autotools!!.stop()
+         sleep(700)
+         autotools!!.right()
+         while(motor0!!.getCurrentPosition() >  -7500){ sleep(10) }     
          autotools!!.stop()
          lift()
          sleep(1000)
+         autotools!!.right()
+         while(motor0!!.getCurrentPosition() > -23100){ sleep(10) }
          autotools!!.forward()
-         while(motor1!!.getCurrentPosition() < GOAL_RETURN_CLOSE){ sleep(10) }
+         while(motor1!!.getCurrentPosition() > GOAL_RETURN_CLOSE){ sleep(10) }
          autotools!!.stop()
          drop()
       }

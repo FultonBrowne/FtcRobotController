@@ -28,7 +28,7 @@ class AutoFramework(
          motor1,
          motor2,
          motor3,
-          -0.8.toFloat()
+          -0.5.toFloat()
       )
 
    }
@@ -39,7 +39,7 @@ class AutoFramework(
          motor1,
          motor2,
          motor3,
-         -0.8.toFloat()
+         -0.5.toFloat()
       )
 
    }
