@@ -9,20 +9,20 @@ const val INIT_LENGTH = -55000
 const val BUFFER = 19000
 const val SIDE_WIDE = -32000 // to change
 const val SIDE_CLOSE= -6000 // to change
-const val LENGTH_CLOSE = -20000
+const val LENGTH_CLOSE = -35000
 const val LENGTH_FAR = -70000
 const val LENGTH_MIDDLE = -50900
-const val GOAL_LEFT_WIDE = 25000 //to change
+const val GOAL_LEFT_WIDE = 10000 //to change
 const val GOAL_LEFT_MORE_WIDE = 24000 //to change
 const val GOAL_LEFT_CLOSE= 15000 // to change
-const val GOAL_LENGTH_CLOSE = 50000
+const val GOAL_LENGTH_CLOSE = 60000
 const val GOAL_LENGTH_FAR = 97500
 const val GOAL_LENGTH_MIDDLE = 85500
-const val GOAL_RETURN_CLOSE = -50000
+const val GOAL_RETURN_CLOSE = -62000
 const val GOAL_RETURN_MIDDLE = -82500
 const val GOAL_RETURN_FAR = -104500
 const val ROTATE = -750
-const val INIT_RIGHT = -30000
+const val INIT_RIGHT = -20000
 const val BUFFER_LEFT = 8500
 const val INCH = 6000
 
@@ -185,12 +185,12 @@ left, forward, right, forward, drop
          autotools!!.stop()
          sleep(700)
          autotools!!.right()
-         while(motor0!!.getCurrentPosition() >  -7500){ sleep(10) }     
+         while(motor0!!.getCurrentPosition() >  -10500){ sleep(10) }     
          autotools!!.stop()
          lift()
          sleep(1000)
          autotools!!.right()
-         while(motor0!!.getCurrentPosition() > -23100){ sleep(10) }
+         while(motor0!!.getCurrentPosition() > -5100){ sleep(10) }
          autotools!!.forward()
          while(motor1!!.getCurrentPosition() > GOAL_RETURN_CLOSE){ sleep(10) }
          autotools!!.stop()

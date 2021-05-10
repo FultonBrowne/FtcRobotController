@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode;
+import  kotlin.concurrent.*
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.framework.*
 import com.qualcomm.robotcore.hardware.*
-@TeleOp( name = "TeleOp 2020")
+const val FORWARD = 1
+@TeleOp( name = "TeleOp 2020" )
+
 class OpMain : OpMode() {
    var motor0:DcMotor? = null 
    var motor1:DcMotor? = null 
@@ -52,14 +55,54 @@ class OpMain : OpMode() {
         motor0!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor1!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor2!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
+        motor2!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor3!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor4!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
+        motor3!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor3!!.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor5!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         motor6!!.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
         servo01!!.setPosition(0.0)
         servo00!!.setPosition(0.1)
    }
 
+   fun doWaitStop(dcmotor:DcMotor?, l:Int){
+      if (l > 0) thread{ while(dcmotor!!.getCurrentPosition() < l){Thread.sleep(10)}}
+      else thread(start = true){ while(dcmotor!!.getCurrentPosition() > l){Thread.sleep(10)}}
+      dcmotor!!.setPower(0.0)
+      dcmotor!!.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+   }
+
+
+   fun forward(){
+      move.forward(
+         motor0!!,
+         motor1!!,
+         motor2!!,
+         motor3!!,
+         -0.8.toFloat()
+      )
+      doWaitStop(motor0, FORWARD)
+      doWaitStop(motor1, FORWARD)
+      doWaitStop(motor2, FORWARD)
+      doWaitStop(motor3, FORWARD)
+   }
+
+
+   fun back(){
+      move.back(
+         motor0!!,
+         motor1!!,
+         motor2!!,
+         motor3!!,
+         -0.8.toFloat()
+      )
+      doWaitStop(motor0, FORWARD)
+      doWaitStop(motor1, FORWARD)
+      doWaitStop(motor2, FORWARD)
+      doWaitStop(motor3, FORWARD)
+   }
  fun isYellow(color:ColorSensor?, num:Int):Boolean{
       var toReturn = false;
         telemetry.addData(Integer.toString(color!!.argb()), "all");
@@ -79,9 +122,12 @@ class OpMain : OpMode() {
 		/* get a bool of yellow true or false */
         telemetry.addData(Integer.toString(motor0!!.getCurrentPosition()), "current position of motor0")
         telemetry.addData(Integer.toString(motor1!!.getCurrentPosition()), "current position of motor1")
+        telemetry.addData(Integer.toString(motor2!!.getCurrentPosition()), "current position of motor2")
+        telemetry.addData(Integer.toString(motor3!!.getCurrentPosition()), "current position of motor3")
 
       motor7!!.setPower(-1.0)
       
+      motor6!!.setPower(-1.0)
 
       val isYellow = isYellow(color0, 2000)
                 if (isYellow){
@@ -160,9 +206,10 @@ class OpMain : OpMode() {
       } else motor6!!.setPower(0.0)
 
       if(gamepad1.right_bumper){
-//          servo03!!.setPower(1.0)
-      } else {
-//         servo03!!.setPower(0.0)
+          forward()
+      }
+      if(gamepad1.left_bumper){
+          back()
       }
 
    }
